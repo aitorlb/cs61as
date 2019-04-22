@@ -13,27 +13,6 @@
 ;; define in this file.  (Don't worry about this for now.)
 (provide (all-defined-out))
 
-;; Exercise 0 - Introduce yourself
-
-#|
-
-This is a comment that spans multiple lines.
-
-1) What is your name?
-
-2) What is your major?
-
-3) Are you a returning student? (i.e. Did you take 61AS last semester?)
-
-4) What made you to take 61AS?
-
-5) Tell us interesting things about yourself.
-
-|#
-
-;; Make a followup on the "Hello World!" post on Piazza introducing yourself.
-
-
 ;; Exercise 1 - Define sum-of-squares
 #|
 
@@ -63,12 +42,10 @@ Otherwise, return the sentence '(Good to go)
 
 |#
 
-
 (define (can-drive age)
 	(if (< age 16)
 		'(Not yet)
 		'(Good to go)))
-
 
 ;; Exercise 2b - Define fizzbuzz
 #|
@@ -87,19 +64,4 @@ You may find the function remainder useful.
   (cond ((and (divisible? x 3) (divisible? x 5)) 'fizzbuzz)
         ((divisible? x 3) 'fizz)
         ((divisible? x 5) 'buzz)
-  			(else x)))
-
-;; Exercise 3 - Why did the Walrus cross the Serengeti?
-
-#|
-Your answer here
-
-
-|#
-
-;; Exercise 4 - new-if vs if
-
-#|
-Your answer here
-
-|#
+  		(else x)))
