@@ -84,8 +84,9 @@ You can ignore any edge cases.
   (member? letter 'aeiou))
 
 (define (indef-article wd)
-  (cond ((vowel? (first wd)) (sentence 'an wd))
-        ((false? (vowel? (first wd))) (sentence 'a wd))))
+  (if (vowel? (first wd))
+      (sentence 'an wd)
+      (sentence 'a wd)))
 
 ;Exercise 4 - Define insert-and
 #|
