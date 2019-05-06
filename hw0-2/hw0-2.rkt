@@ -7,50 +7,47 @@
 (define (second wd)
   (first (bf wd)))
 
-;1. Define first-two
 #|
+1. Define first-two
 
 Write a procedure first-two that takes a word as its argument,
 returning a two-letter word containing the first two letters of the argument.
 
 -> (first-two 'ambulatory)
 'am
-
 |#
 
 (define (first-two wd)
   (word (first wd) (second wd)))
 
-;;2. Define two-first
 #|
+2. Define two-first
 
 Write a procedure two-first that takes two words as arguments,
 returning a two-letter word containing the first letters of the two arguments.
 
 -> (first-two 'ambulatory)
 'am
-
 |#
 
 (define (two-first x y)
   (word (first x) (first y)))
 
-;;3. Define two-first-sent
 #|
+3. Define two-first-sent
 
 Now write a procedure two-first-sent that takes a two-word sentence as argument,
 returning a two-letter word containing the first letters of the two words.
 
 -> (two-first-sent '(brian epstein))
 'be
-
 |#
 
 (define (two-first-sent sent)
   (word (first (first sent)) (first (last sent))))
 
-;Exercise 2 - Define teen?
 #|
+Exercise 2 - Define teen?
 
 Write a predicate teen? that returns #t if its argument is between 13 and 19, inclusive.
 
@@ -58,14 +55,13 @@ Write a predicate teen? that returns #t if its argument is between 13 and 19, in
 #t
 -> (teen? (/ 39 2))
 #f
-
 |#
 
 (define (teen? num)
   (and (>= num 13) (<= num 19)))
 
-;Exercise 3 - Define indef-article
 #|
+Exercise 3 - Define indef-article
 
 Write a procedure indef-article that takes in a word as its only argument and
 returns a sentence. See examples below for how indef-article should work.
@@ -77,7 +73,6 @@ You can ignore any edge cases.
 '(a beetle)
 -> (indef-article 'apple)
 '(an apple)
-
 |#
 
 (define (vowel? letter)
@@ -88,22 +83,21 @@ You can ignore any edge cases.
       (sentence 'an wd)
       (sentence 'a wd)))
 
-;Exercise 4 - Define insert-and
 #|
+Exercise 4 - Define insert-and
 
 Write a procedure insert-and that takes a sentence of items and returns a new
 sentence with an and in the grammatically correct place.
 
 -> (insert-and '(john bill wayne fred joey))
 '(john bill wayne fred and joey)
-
 |#
 
 (define (insert-and sent)
   (sentence (butlast sent) 'and (last sent)))
 
-;Exercise 5 - Define query
 #|
+Exercise 5 - Define query
 
 Write a procedure query that turns a statement into a question by swapping the
 first two words and adding a question mark to the end of the last word.
@@ -115,14 +109,13 @@ You can ignore any edge cases.
 '(should i have known better?)
 -> (query '(you were there))
 '(were you there?)
-
 |#
 
 (define (query sent)
  (sentence (first (bf sent)) (first sent) (bf (bf (bl sent))) (word (last sent) '?)))
 
-;Exercise 6 - Define european-time and american-time
 #|
+Exercise 6 - Define european-time and american-time
 
 Write a procedure european-time to convert a time from American AM/PM notation into European 24-hour notation. Also, write american-time, which does the opposite.
 
@@ -139,7 +132,6 @@ Write a procedure european-time to convert a time from American AM/PM notation i
 '(9 pm)
 -> (american-time 12)
 '(12 pm)
-
 |#
 
 (define (european-time time)
@@ -155,8 +147,8 @@ Write a procedure european-time to convert a time from American AM/PM notation i
         [(= time 12) (sentence 12 'pm)]
         [(> time 12) (sentence (- time 12) 'pm)]))
 
-;Exercise 7 - Define describe-time
 #|
+Exercise 7 - Define describe-time
 
 Write a procedure describe-time that takes a number of seconds as its argument and returns a more useful description of that amount of time. Assume that there are 365.25 days in a year. You only need to account for time periods up to a day.
 
@@ -171,7 +163,6 @@ Write a procedure describe-time that takes a number of seconds as its argument a
 
 -> (describe-time 518400)
 '(6 days)
-
 |#
 
 (define (describe-time secs)
@@ -183,8 +174,8 @@ Write a procedure describe-time that takes a number of seconds as its argument a
         [(>= secs minute) (sentence (/ secs minute) 'minutes)]
         [else (sentence secs 'seconds)]))
 
-;Exercise 8 - Explain why superlative doesnt work:
 #|
+Exercise 8 - Explain why superlative doesnt work:
 
 The following program doesn't work. Why not? Fix it and explain why.
 
@@ -195,7 +186,6 @@ This is how superlative should work:
 
 -> (superlative 'dumb 'exercise)
 '(dumbest exercise)
-
 |#
 
 (define (superlative adj wd)

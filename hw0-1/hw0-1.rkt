@@ -13,15 +13,14 @@
 ;; define in this file.  (Don't worry about this for now.)
 (provide (all-defined-out))
 
-;; Exercise 1 - Define sum-of-squares
 #|
+Exercise 1 - Define sum-of-squares
 
 Using square, define a procedure sum-of-squares that takes two arguments and
 returns the sum of the squares of the two arguments:
 
 -> (sum-of-squares 3 4)
 25
-
 |#
 
 (define (square x) (* x x))
@@ -29,9 +28,8 @@ returns the sum of the squares of the two arguments:
 (define (sum-of-squares x y)
 	(+ (square x) (square y)))
 
-;; Exercise 2a - Define can-drive
-
 #|
+Exercise 2a - Define can-drive
 
 write a procedure can-drive that takes the age of a person as an argument.
 If the age is below 16, return the sentence '(Not yet).
@@ -39,7 +37,6 @@ Otherwise, return the sentence '(Good to go)
 
 -> (can-drive 16)
 '(Good to go)
-
 |#
 
 (define (can-drive age)
@@ -47,14 +44,13 @@ Otherwise, return the sentence '(Good to go)
 		'(Not yet)
 		'(Good to go)))
 
-;; Exercise 2b - Define fizzbuzz
 #|
+Exercise 2b - Define fizzbuzz
 
 Write a procedure fizzbuzz that takes a number and outputs the word 'fizz if
 the number is divisible by 3, 'buzz if it's divisible by 5, 'fizzbuzz if it's
 divisible by both 3 and 5, and otherwise, the number itself.
 You may find the function remainder useful.
-
 |#
 
 (define (divisible? big small)
