@@ -6,21 +6,26 @@
 #|
 Exercise 0 - The "Keep" Pattern
 
-Write a procedure called numbers that takes a sentence as its argument and returns another sentence containing only the numbers in the sentence. You may find the number? predicate useful.
+Write a procedure called numbers that takes a sentence as its argument and
+returns another sentence containing only the numbers in the sentence.
+You may find the number? predicate useful.
 
 -> (numbers '(76 trombones and 110 cornets))
 '(76 110)
 |#
 
 (define (numbers sent)
-  (cond [(empty? sent) '()]
+  (cond
+    [(empty? sent) '()]
 		[(number? (first sent)) (sentence (first sent) (numbers (bf sent)))]
 		[else (sentence (numbers (bf sent)))]))
 
 #|
 Exercise 1 - Define describe-time
 
-Write a new version of the describe-time procedure from Homework 0-2. You only need to account for time periods up to a day. Instead of returning a decimal number, it should behave like this:
+Write a new version of the describe-time procedure from Homework 0-2.
+You only need to account for time periods up to a day.
+Instead of returning a decimal number, it should behave like this:
 
 -> (describe-time 22222)
 '(6 HOURS 10 MINUTES 22 SECONDS)
@@ -30,15 +35,33 @@ Write a new version of the describe-time procedure from Homework 0-2. You only n
 |#
 
 (define (describe-time secs)
-  ; your code here
- (error "Not yet implemented")
-)
+  (define day 86400)
+  (define hour 3600)
+  (define minute 60)
+	(cond
+    [(>= secs day) (sentence (quotient secs day) 'days (describe-time (remainder secs day)))]
+    [(>= secs hour) (sentence (quotient secs hour) 'hours (describe-time (remainder secs hour)))]
+    [(>= secs minute) (sentence (quotient secs minute) 'minutes (describe-time (remainder secs minute)))]
+    [else (sentence secs 'seconds)]))
 
-; Exercise 2 - Define remove-once
+#|
+Exercise 2 - Define remove-once
+
+Write a procedure called remove-once that takes a word and sentence
+as its argument and returns another sentence with the given word removed.
+(If the given word appears more than once, it doesn't matter which one
+is removed, as long as only one of them is.)
+Here's an example of how the procedure remove-once should work:
+
+-> (remove-once 'morning '(good morning good morning))
+'(good good morning)
+|#
+
 (define (remove-once wd sent)
-  ; your code here
- (error "Not yet implemented")
-)
+  (cond
+    [(empty? sent) '()]
+    [(and (equal? (first sent) wd) (not (member? wd (bf sent)))) (sentence (remove-once wd (bf sent)))]
+    [else (sentence (first sent) (remove-once wd (bf sent)))]))
 
 ; Exercise 3 - Define differences
 (define (differences nums)
