@@ -17,8 +17,8 @@ You may find the number? predicate useful.
 (define (numbers sent)
   (cond
     [(empty? sent) '()]
-		[(number? (first sent)) (sentence (first sent) (numbers (bf sent)))]
-		[else (sentence (numbers (bf sent)))]))
+    [(number? (first sent)) (sentence (first sent) (numbers (bf sent)))]
+    [else (sentence (numbers (bf sent)))]))
 
 #|
 Exercise 1 - Define describe-time
@@ -38,7 +38,7 @@ Instead of returning a decimal number, it should behave like this:
   (define day 86400)
   (define hour 3600)
   (define minute 60)
-	(cond
+  (cond
     [(>= secs day) (sentence (quotient secs day) 'days (describe-time (remainder secs day)))]
     [(>= secs hour) (sentence (quotient secs hour) 'hours (describe-time (remainder secs hour)))]
     [(>= secs minute) (sentence (quotient secs minute) 'minutes (describe-time (remainder secs minute)))]
