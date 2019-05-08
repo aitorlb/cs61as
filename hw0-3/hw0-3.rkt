@@ -39,10 +39,10 @@ Instead of returning a decimal number, it should behave like this:
   (define hour 3600)
   (define minute 60)
   (cond
-    [(>= secs day) (sentence (quotient secs day) 'days (describe-time (remainder secs day)))]
-    [(>= secs hour) (sentence (quotient secs hour) 'hours (describe-time (remainder secs hour)))]
-    [(>= secs minute) (sentence (quotient secs minute) 'minutes (describe-time (remainder secs minute)))]
-    [else (sentence secs 'seconds)]))
+    [(>= secs day) (se (quotient secs day) 'days (describe-time (remainder secs day)))]
+    [(>= secs hour) (se (quotient secs hour) 'hours (describe-time (remainder secs hour)))]
+    [(>= secs minute) (se (quotient secs minute) 'minutes (describe-time (remainder secs minute)))]
+    [else (se secs 'seconds)]))
 
 #|
 Exercise 2 - Define remove-once
@@ -60,20 +60,49 @@ Here's an example of how the procedure remove-once should work:
 (define (remove-once wd sent)
   (cond
     [(empty? sent) '()]
-    [(and (equal? (first sent) wd) (not (member? wd (bf sent)))) (sentence (remove-once wd (bf sent)))]
-    [else (sentence (first sent) (remove-once wd (bf sent)))]))
+    [(and (equal? (first sent) wd) (not (member? wd (bf sent)))) (se (remove-once wd (bf sent)))]
+    [else (se (first sent) (remove-once wd (bf sent)))]))
 
-; Exercise 3 - Define differences
+#|
+Exercise 3 - Define differences
+
+Write the procedure differences, which takes a sentence of numbers as its argument
+and returns a sentence containing the differences between adjacent elements.
+(The length of the returned sentence is one less than that of the argument.)
+
+-> (differences '(4 23 9 87 6 12))
+'(19 -14 78 -81 6)
+|#
+
 (define (differences nums)
-  ;your code here
- (error "Not yet implemented")
-)
+  (if (empty? (bf nums))
+    '()
+    (se (- (first (bf nums)) (first nums)) (differences (bf nums)))))
 
-; Exercise 4 - Define location
-(define (location small big)
-  ; your code here
- (error "Not yet implemented")
-)
+#|
+Exercise 4 - Define location
+
+Write a procedure called location that takes two arguments, a word and a sentence.
+It should return a number indicating where in the sentence that word can be found.
+If the word isn't in the sentence, return #f. If the word appears more than once,
+return the location of the first appearance.
+
+-> (location 'me '(you never give me your money))
+4
+-> (location 'i '(you never give me your money))
+#f
+-> (location 'the '(the fork and the spoon))
+1
+|#
+
+(define (location-aux wd sent counter)
+  (cond
+    [(empty? sent) #f]
+    [(equal? (first sent) wd) counter]
+    [else (location-aux wd (bf sent) (+ 1 counter))]))
+
+(define (location wd sent)
+  (location-aux wd sent 1))
 
 ; Exercise 5 - Define initials
 (define (initials sent)
