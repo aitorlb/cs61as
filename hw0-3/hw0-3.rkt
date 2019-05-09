@@ -17,8 +17,8 @@ You may find the number? predicate useful.
 (define (numbers sent)
   (cond
     [(empty? sent) '()]
-    [(number? (first sent)) (sentence (first sent) (numbers (bf sent)))]
-    [else (sentence (numbers (bf sent)))]))
+    [(number? (first sent)) (se (first sent) (numbers (bf sent)))]
+    [else (se (numbers (bf sent)))]))
 
 #|
 Exercise 1 - Define describe-time
@@ -104,23 +104,72 @@ return the location of the first appearance.
 (define (location wd sent)
   (location-aux wd sent 1))
 
-; Exercise 5 - Define initials
+#|
+Exercise 5 - Define initials
+
+Write a procedure initials that takes a sentence as its argument and returns a sentence of the first letters in each of the sentence's words.
+
+-> (initials '(if i needed someone))
+'(i i n s)
+|#
+
 (define (initials sent)
-  ; your code here
- (error "Not yet implemented")
-)
+  (if (empty? sent)
+    '()
+    (se (first (first sent)) (initials (bf sent)))))
 
-; Exercise 6 - Define copies
+#|
+Exercise 6 - Define copies
+
+Write a procedure copies that takes a number and a word as arguments and returns
+a sentence containing that many copies of the given word.
+
+-> (copies 8 'spam)
+'(spam spam spam spam spam spam spam spam)
+|#
+
 (define (copies num wd)
-  ; your code here
- (error "Not yet implemented")
-)
+  (if (= num 0)
+    '()
+    (se wd (copies (- num 1) wd))))
 
-; Exercise 7 - Define gpa
+#|
+Exercise 7 - Define gpa
+
+Write a GPA procedure. It should take a sentence of grades as its argument and
+return the corresponding grade point average.
+
+Hint: write a helper procedure called base-grade that takes a grade as argument
+and returns 0, 1, 2, 3, or 4, and another helper procedure called grade-modifier
+that returns −.33, 0, or .33, depending on whether the grade has a minus, a plus,
+or neither.
+
+-> (gpa '(A A+ B+ B))
+3.67
+|#
+
+(define (base-grade grade)
+  (case (first grade)
+    [("A") 4]
+    [("B") 3]
+    [("C") 2]
+    [("D") 1]
+    [("F") 0]))
+
+(define (grade-modifier grade)
+  (case (bf grade)
+    [("") 0]
+    [(+) 0.33]
+    [(-) -0.33]))
+
+(define (total-points grades)
+ (if (empty? grades)
+   0
+   (+ (+ (base-grade (first grades)) (grade-modifier (first grades)))
+      (total-points (bf grades)))))
+
 (define (gpa grades)
-  ; your code here
- (error "Not yet implemented")
-)
+ (/ (total-points grades) (count grades)))
 
 ; Exercise 8 - Define repeat-words
 (define (repeat-words sent)
