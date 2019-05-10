@@ -107,7 +107,8 @@ return the location of the first appearance.
 #|
 Exercise 5 - Define initials
 
-Write a procedure initials that takes a sentence as its argument and returns a sentence of the first letters in each of the sentence's words.
+Write a procedure initials that takes a sentence as its argument and returns a
+sentence of the first letters in each of the sentence's words.
 
 -> (initials '(if i needed someone))
 '(i i n s)
@@ -171,14 +172,43 @@ or neither.
 (define (gpa grades)
  (/ (total-points grades) (count grades)))
 
-; Exercise 8 - Define repeat-words
-(define (repeat-words sent)
-  ; your code here
- (error "Not yet implemented")
-)
+#|
+Exercise 8 - Define repeat-words
 
-; Exercise 9 - Define same-shape?
+Write repeat-words, which takes a sentence as its argument. It returns a sentence
+similar to the argument, except that if a number appears in the argument, then the
+return value contains that many copies of the following word.
+
+-> (repeat-words '(4 calling birds 3 french hens))
+'(calling calling calling calling birds french french french hens)
+-> (repeat-words '(the 7 samurai))
+'(the samurai samurai samurai samurai samurai samurai samurai)
+|#
+
+(define (repeat-words sent)
+  (cond
+    [(empty? sent) '()]
+    [(and (number? (first sent)) (not (empty? (second sent))))
+      (se (copies (first sent) (first (bf sent))) (repeat-words (bf (bf sent))))]
+    [else (se (first sent) (repeat-words (bf sent)))]))
+
+#|
+Exercise 9 - Define same-shape?
+
+Write a predicate same-shape? that takes two sentences as arguments. It should return
+#t if two conditions are met: The two sentences must have the same number of words,
+and each word of the first sentence must have the same number of letters as the word
+in the corresponding position in the second sentence.
+
+-> (same-shape? '(the fool on the hill) '(you like me too much))
+#t
+-> (same-shape? '(the fool on the hill) '(and your bird can sing))
+#f
+|#
+
 (define (same-shape? sent1 sent2)
-  ; your code here
- (error "Not yet implemented")
-)
+  (cond
+    [(and (empty? sent1) (empty? sent2)) #t]
+    [(or (empty? sent1) (empty? sent2)) #f]
+    [(not (= (count (first sent1)) (count (first sent2)))) #f]
+    [else (same-shape? (bf sent1) (bf sent2))]))
