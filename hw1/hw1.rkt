@@ -84,37 +84,112 @@ suitable for the job, not like `if`, which is a SPECIAL form, and has its own
 particular evaluation rule.
 |#
 
-; Exercise 4 - Define squares
+#|
+Exercise 4 - Define squares
+
+Write a procedure squares that takes a sentence of numbers as its argument and
+returns a sentence of the squares of the numbers.
+
+-> (squares '(1 2 3))
+(1 4 9)
+|#
 
 (define (squares sent)
-  ; Your code here
-  (error "Not yet implemented")
-)
-
-; Exercise 5 - Define switch
-
-(define (switch sent)
-  ; Your code here
-  (error "Not yet implemented")
-)
-
-; Exercise 6 - Define ordered?
-
-(define (ordered? sent)
-  ; Your code here
-  (error "Not yet implemented")
-)
-
-; Exercise 7 - Define ends-e
-
-(define (ends-e sent)
-  ; Your code here
-  (error "Not yet implemented")
-)
-
-; Exercise 8
+  (if (empty? sent)
+    '()
+    (se (square (first sent)) (squares (bf sent)))))
 
 #|
+Exercise 5 - Define switch
+
+Write a procedure switch that takes a sentence as its argument and returns a
+sentence in which every instance of the words I or me is replaced by you, while
+every instance of you is replaced by me except at the beginning of the sentence,
+where it's replaced by I. (The word I is the only word that should be capitalized.)
+
+Write a helper function that just handles the general case of the problem—that is,
+your helper shouldn't worry about the "except at the beginning of the sentence"
+part. Then write switch using that helper function and handle the special case in
+the body of switch.
+
+-> (switch '(you told me that I should wake you up))
+(I told you that you should wake me up)
+|#
+
+(define (switch-word wd)
+  (case wd
+    ['I 'you]
+    ['me 'you]
+    ['you 'me]
+    [else wd]))
+
+(define (switch-aux sent)
+  (if (empty? sent)
+    '()
+    (se (switch-word (first sent)) (switch-aux (bf sent)))))
+
+(define (switch sent)
+  (if (equal? (first sent) 'you)
+    (se 'I (switch-aux (bf sent)))
+    (se (switch-word (first sent)) (switch-aux (bf sent)))))
+
+#|
+Exercise 6 - Define ordered?
+
+Write a predicate ordered? that takes a sentence of numbers as its argument and
+returns #t if the numbers are in ascending order, or #f otherwise.
+
+-> (ordered? '(1 2 3))
+#t
+-> (ordered? '(2 1 3))
+#f
+-> (ordered? '(2))
+#t
+|#
+
+
+(define (ordered? sent)
+  (cond
+    [(< (count sent) 2) #t]
+    [(> (first sent) (first (bf sent))) #f]
+    [else (ordered? (bf sent))]))
+
+#|
+Exercise 7 - Define ends-e
+
+Write a procedure ends-e that takes a sentence as its argument and returns a
+sentence containing only those words that end in the letter E.
+
+-> (ends-e '(please put the salami above the blue elephant))
+(please the above the blue)
+|#
+
+(define (ends-e sent)
+  (cond
+    [(empty? sent) '()]
+    [(equal? (last (first sent)) 'e) (se (first sent) (ends-e (bf sent)))]
+    [else (se (ends-e (bf sent)))]))
+
+#|
+Exercise 8
+
+Most versions of Lisp provide and and or procedures like the ones we've seen.
+In principle, there is no reason why these can't be ordinary procedures,
+but some versions of Lisp make them special forms.
+
+Suppose, for example, we evaluate (or (= x 0) (= y 0) (= z 0)). If or is an
+ordinary procedure, all three argument expressions will be evaluated before or
+is invoked. But if the variable x has the value 0, we know that the entire
+expression has to be true regardless of the values of y and z. A Lisp interpreter
+in which or is a special form can evaluate the arguments one by one until either
+a true one is found or it runs out of arguments.
+
+Devise a test that will tell you whether Racket's and and or are special forms
+or ordinary functions. This is a somewhat tricky problem, but it'll get you
+thinking about the evaluation process more deeply. Why might it be advantageous
+for an interpreter to treat or as a special form and evaluate its arguments one
+at a time? Can you think of reasons why it might be advantageous to treat or as
+an ordinary function?
 
 Your explanation here
 
