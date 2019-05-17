@@ -173,24 +173,37 @@ sentence containing only those words that end in the letter E.
 #|
 Exercise 8
 
-Most versions of Lisp provide and and or procedures like the ones we've seen.
+Most versions of Lisp provide `and` and `or` procedures like the ones we've seen.
 In principle, there is no reason why these can't be ordinary procedures,
 but some versions of Lisp make them special forms.
 
-Suppose, for example, we evaluate (or (= x 0) (= y 0) (= z 0)). If or is an
-ordinary procedure, all three argument expressions will be evaluated before or
-is invoked. But if the variable x has the value 0, we know that the entire
-expression has to be true regardless of the values of y and z. A Lisp interpreter
-in which or is a special form can evaluate the arguments one by one until either
+Suppose, for example, we evaluate `(or (= x 0) (= y 0) (= z 0))`. If `or` is an
+ordinary procedure, all three argument expressions will be evaluated before `or`
+is invoked. But if the variable `x` has the value 0, we know that the entire
+expression has to be true regardless of the values of `y` and `z`. A Lisp interpreter
+in which `or` is a special form can evaluate the arguments one by one until either
 a true one is found or it runs out of arguments.
 
-Devise a test that will tell you whether Racket's and and or are special forms
+Devise a test that will tell you whether Racket's `and` and `or` are special forms
 or ordinary functions. This is a somewhat tricky problem, but it'll get you
 thinking about the evaluation process more deeply. Why might it be advantageous
-for an interpreter to treat or as a special form and evaluate its arguments one
-at a time? Can you think of reasons why it might be advantageous to treat or as
+for an interpreter to treat `or` as a special form and evaluate its arguments one
+at a time? Can you think of reasons why it might be advantageous to treat `or` as
 an ordinary function?
 
 Your explanation here
+
+A couple of tests could be:
+
+-> (or (= 0 0) (= "0" 0))
+If `or` is a special form, it will return #t and the second argument won't be
+evaluated, or else it would raise a `contract violation` error.
+
+-> (and (= 1 0) (= "1" 0))
+If `and` is a special form, it will return #f and the second argument won't be
+evaluated, or else it would raise a `contract violation` error.
+
+Treating them as special forms allows for short-circuit evaluation, which can
+avoid run-time errors as we have seen.
 
 |#
