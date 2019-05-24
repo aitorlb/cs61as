@@ -30,8 +30,9 @@ babybot will take in a sentence and output a sentence.
 
 You can try interacting with your very simple bot by loading chatterbot.rkt
 and calling the "interact" function. It takes in a bot, and starts a
-conversation with them
+conversation with them.
 
+Example:
 ```racket
 -> (interact babybot)
 CB> hey there
@@ -51,6 +52,7 @@ called MOTTO and outputs a ChatterBot. The outputted ChatterBots will take in
 one sentence and regardless of the input, this stupid ChatterBot will output
 MOTTO.
 
+Example:
 ```racket
 -> (define dalek (stupidbot-creator '(exterminate!)))
 -> (dalek '(I am the doctor!))
@@ -73,6 +75,7 @@ everything that follows the first appearence of PATTERN in SENT. If PATTERN is
 not in SENT, return #f. If PATTERN is at the very end of the sentence, return
 the empty sentence. If PATTERN is the empty sentence, return SENT.
 
+Example:
 ```racket
 -> (define cedric (matcherbot-creator '(hufflepuffs are great)))
 -> (cedric '(hufflepuffs are great finders))
@@ -93,41 +96,39 @@ a sentence, SENT, and output a new sentence where every word in SENT that is a
 member of FROM is replaced with its corresponding word in TO. If FROM and TO
 are empty sentences, the ChatterBot will simply return SENT
 
+Example:
 ```racket
 -> (define marions-vacay (substitutebot-creator '(indonesia winter noodles) '(texas summer steak)))
 -> (marions-vacay '(I visited indonesia this winter and ate noodles))
 (I visited texas this summer and ate steak)
 ```
 
----Page Break---
-Part 5: switcherbot
+## Part 5: switcherbot
 To further mirror human conversation, our ChatterBot needs to be able to take
 in statements and assign the facts to the right people. If I say '(I am reia),
 the ChatterBot should not reply with '(I am reia), because it should be smart
 enough to know that it is not also reia. This ChatterBot will switch perspective
 by changing any sentence in first person to second person and vice versa.
+switcherbot takes in a sentence SENT and outputs SENT with its viewpoint switched.
 
 Rules:
-	- Every instance of 'you is replaced by 'me except at the beginning of the sentence, where it's replaced by 'I.
-	- Do not worry about contractions, compound sentences, or other grammatical edge cases.
+- Every instance of 'you is replaced by 'me except at the beginning of the sentence, where it's replaced by 'I.
+- Do not worry about contractions, compound sentences, or other grammatical edge cases.
+- List of viewpoints:
+  - me <-> you
+  - I <-> you
+  - am <-> are
+  - was <-> were
+  - my <-> your
+  - yours <-> mine
 
-A list of viewpoints:
-	me <-> you
-	I <-> you
-	am <-> are
-	was <-> were
-	my <-> your
-	yours <-> mine
-
-switcherbot takes in a sentence SENT and outputs SENT with its viewpoint switched.
-(Hint: How can you use a previous problem to help you solve this problem?)
 Example:
-	-> (switcherbot '(you are reia but I am a bird))
-		(I am reia but you are a bird)
+```racket
+-> (switcherbot '(you are reia but I am a bird))
+(I am reia but you are a bird)
+```
 
-
----Page Break---
-Part 6: inquisitivebot
+## Part 6: inquisitivebot
 Therapists need to be able to ask questions. In our next step towards creating
 eliza, we will create a new ChatterBot that really likes to ask questions. It
 will take in a sentence SENT in the first person and rephrase it into a question
@@ -136,39 +137,37 @@ SENT is the empty sentence, inquisitivebot should return the empty sentence with
 no question mark.
 
 Example:
-	-> (inquisitivebot '(I am happy))
-    	(you are happy ?)
-	-> (inquisitivebot '(I can see you))
-    	(you can see me ?)
+```racket
+-> (inquisitivebot '(I am happy))
+(you are happy ?)
+-> (inquisitivebot '(I can see you))
+(you can see me ?)
+```
 
----Page Break---
-Part 7: eliza
+## Part 7: eliza
 It's time to put eliza together. eliza is a simplified Rogerian psychotherapist.
 It will respond to facts by repeating them and associating them to the correct
-subject. Here is a list of rules that eliza will comply to:
+subject.
 
-	- eliza will reply '(hello there!) to any sentence where the first word is 'hello.
-	- It will reply to statements that contain '(I am) by:
-		- removing '(I am) and anything before it from the beginning of the sentence
-		- switching the perspective of everything after
-		- prepending '(why are you) to the beginning of the sentence
-	- If you ask a question, i.e. any statement where the last word is '?, eliza
-        will reply with '(I can not answer your question.)
-	- If the empty sentence is entered, eliza should answer with
-        (how can I help you ?).
-	- If any other statement is made, eliza should reply with the same statement
-        except with its perspective switched.
+Here is a list of rules that eliza will comply to:
+- eliza will reply '(hello there!) to any sentence where the first word is 'hello.
+- It will reply to statements that contain '(I am) by:
+  - removing '(I am) and anything before it from the beginning of the sentence
+  - switching the perspective of everything after
+  - prepending '(why are you) to the beginning of the sentence
+- If you ask a question, i.e. any statement where the last word is '?, eliza  will reply with '(I can not answer your question.)
+- If the empty sentence is entered, eliza should answer with (how can I help you ?).
+- If any other statement is made, eliza should reply with the same statement except with its perspective switched.
 
 Example:
-	-> (eliza '(hello))
-    	(hello there!)
-	-> (eliza '(I am excited to finish unit 1))
-    	(why are you excited to finish unit 1 ?)
-    -> (eliza '(you are happy to see me))
-    	(I am happy to see you)
-
-HINT: You should have to write very little new code for this problem. Try
-to see if you can use the procedures you wrote in parts 1-6.
+```racket
+-> (eliza '(hello))
+(hello there!)
+-> (eliza '(I am excited to finish unit 1))
+(why are you excited to finish unit 1 ?)
+-> (eliza '(you are happy to see me))
+(I am happy to see you)
+```
 
 ---Page Break---
 Part 8: reactorbot-creator

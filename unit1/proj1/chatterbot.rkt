@@ -76,23 +76,46 @@
   (lambda (sent) (substitute sent from to)))
 
 ;;Q5 - switcherbot
-  (define (switcherbot sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
-
+(define (switcherbot sent)
+  (define (switch sent) ;; from hw1-ex5
+    (define (switch-word wd) ;; word mapping
+      (case wd
+        ['I 'you]
+        ['me 'you]
+        ['you 'me]
+        ['am 'are]
+        ['are 'am]
+        ['was 'were]
+        ['were 'was]
+        ['my 'your]
+        ['your 'my]
+        ['mine 'yours]
+        ['yours 'mine]
+        [else wd]))
+    (define (switch-aux sent) ;; handles general case
+      (if (empty? sent)
+          '()
+          (se (switch-word (first sent)) (switch-aux (bf sent)))))
+    (if (equal? (first sent) 'you) ;; handles special case at beginning of the sentence
+        (se 'I (switch-aux (bf sent)))
+        (se (switch-word (first sent)) (switch-aux (bf sent)))))
+  (switch sent))
 
 ;;Q6 - inquisitivebot
-  (define (inquisitivebot sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+(define (inquisitivebot sent)
+  (if (empty? sent)
+      sent
+      (se (switcherbot sent) '?)))
 
 ;;Q7 - eliza
-  (define (eliza sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+(define (eliza sent)
+  (define i-am-sent ((matcherbot-creator '(I am)) sent))
+  (cond
+    [(empty? sent) '(how can I help you ?)]
+    [(equal? (first sent) 'hello) '(hello there!)]
+    [(equal? (last sent) '?) '(I can not answer your question.)]
+    [(not (false? i-am-sent)) (se '(why are you) (inquisitivebot i-am-sent))]
+    [else (switcherbot sent)]))
 
 ;;Q8 - reactorbot-creator
   (define (reactorbot-creator bot pat out)
