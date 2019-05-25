@@ -60,7 +60,8 @@
   (define (matcherbot sent)
     (cond
       [(empty? pattern) sent]
-      [(and (member (first pattern) sent) (list-prefix? pattern (member (first pattern) sent))) (list-tail (member (first pattern) sent) (length pattern))]
+      [(and (member (first pattern) sent) (list-prefix? pattern (member (first pattern) sent)))
+        (list-tail (member (first pattern) sent) (length pattern))]
       [else #f]))
   matcherbot)
 
@@ -138,7 +139,6 @@
       [(adjective? (first sent)) (se (repeat num 'very) (first sent) (emphasise-adjectives num (bf sent)))]
       [else (se (first sent) (emphasise-adjectives num (bf sent)))]))
   (lambda (sent) (emphasise-adjectives n (bot sent))))
-
 
 ;;REMEMBER TO ADD YOUR OWN TESTS TO GRADER.RKT!
 ;;END OF PROJECT 1
