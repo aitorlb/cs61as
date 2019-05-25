@@ -169,62 +169,64 @@ Example:
 (I am happy to see you)
 ```
 
----Page Break---
-Part 8: reactorbot-creator
+## Part 8: reactorbot-creator
 Now, create procedure called reactorbot-creator that takes a ChatterBot BOT, a
 sentence PAT, and a sentence OUT. This will output another ChatterBot that
 works just like BOT except when PAT is in the input. When PAT is in the input,
 return OUT.
 
 Example:
-	-> (define stupidbot (stupidbot-creator '(I am Groot)))
-	-> (define groot (reactorbot-creator stupidbot '(no Groot youll die why are you doing this) '(WE are Groot)))
-	-> (groot '(whats up groot))
-		(I am Groot))
-	-> (groot '(no Groot youll die why are you doing this))
-		(WE are Groot)
+```racket
+-> (define stupidbot (stupidbot-creator '(I am Groot)))
+-> (define groot (reactorbot-creator stupidbot '(no Groot youll die why are you doing this) '(WE are Groot)))
+-> (groot '(whats up groot))
+(I am Groot))
+-> (groot '(no Groot youll die why are you doing this))
+(WE are Groot)
+```
 
-
----Page Break---
-Part 9: replacerbot-creator
+## Part 9: replacerbot-creator
 Next door to the reactorbot-creator lives a very similar creator called the
 replacerbot-creator. The replacerbot-creator acts similarly to the
 reactorbot-creator. It takes in a ChatterBot BOT, a sentence PAT, a sentence
 BEFORE, a sentence AFTER and returns a new ChatterBot. This ChatterBot
-should act the same as BOT, except when it finds PAT anywhere in the input sentence, where it should:
+should act the same as BOT, except when it finds PAT anywhere in the input sentence,
+where it should:
+- remove the first instance of PAT and everything before it from SENT
+- prepend BEFORE to the beginning of SENT
+- append AFTER to the end of SENT
 
-	- remove the first instance of PAT and everything before it from SENT
-	- prepend BEFORE to the beginning of SENT
-	- append AFTER to the end of SENT
 
-Write replacerbot-creator.
+Example:
+```racket
+-> (define stupidbot (stupidbot-creator '(thats nice)))
+-> (define dadbot (replacerbot-creator stupidbot '(I am) '(hi) '(im dadbot)))
+-> (dadbot '(youre pretty dumb))
+'(thats nice)
+-> (dadbot '(I am hungry))
+'(hi hungry im dadbot)
+```
 
----Page Break---
-Part 10: Write the procedure exaggerate that takes in a bot. BOT1 and a number N. It returns
+## Part 10: exagerate
+Write the procedure exaggerate that takes in a bot. BOT1 and a number N. It returns
 a new bot, BOT. BOT takes in a sentence, and responds how BOT1 would except that
 it prepends 'very' before any adjective in its response.
 The bot inspects its output and repeats this process N times.
 
-   	-> (define exaggerated-babybot1 (exaggerate babybot 1))
-	-> (exaggerated-babybot1 '(this soup is hot and tasty))
-		(this soup is very hot and very tasty)
+Example:
+```racket
+-> (define exaggerated-babybot1 (exaggerate babybot 1))
+-> (exaggerated-babybot1 '(this soup is hot and tasty))
+(this soup is very hot and very tasty)
+```
 
-	;;; Note that "very" is also considered an adjective
-	;;; So when you exaggerate with n=2, it will behave like the following
-   	-> (define exaggerated-babybot2 (exaggerate babybot 2))
-	-> (exaggerated-babybot2 '(this soup is hot and tasty))
-		(this soup is very very very hot and very very very tasty)
+In the file "chatterbot.rkt", we have defined the function adjective? that takes
+in a word and returns #t if it is an adjective.
 
-
-In the file "chatterbot.rkt", we have defined the function adjective? that takes in a word and returns #t if it is an adjective
-
-    -> (adjective? 'hot)
-		#t
-	->(adjective? 'computer)
-		#f
-
----Page Break---
-Part 11: We've provided a "grader.rkt" file for you with a minimal number of autograder tests. Add your own tests to the file "grader.rkt" - you should add as many as you think is necessary to catch any edge cases and prove that your code is correct. This is worth 2 out of the total 15 points.
-
----Page Break---
-You're done! Take a nap, watch some Netflix, go for a run, etc.
+Example:
+```racket
+-> (adjective? 'hot)
+#t
+->(adjective? 'computer)
+#f
+```

@@ -118,22 +118,27 @@
     [else (switcherbot sent)]))
 
 ;;Q8 - reactorbot-creator
-  (define (reactorbot-creator bot pat out)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+(define (reactorbot-creator bot pat out)
+  (lambda (sent) (if (equal? sent pat) out (bot sent))))
 
 ;;Q9 - replacerbot-creator
-  (define (replacerbot-creator bot pat before after)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+(define (replacerbot-creator bot pat before after)
+  (lambda (sent)
+    (define pat-sent ((matcherbot-creator pat) sent))
+    (if (not (false? pat-sent))
+        (se before pat-sent after)
+        (bot sent))))
 
 ;;Q10 - exagerate
-  (define (exaggerate bot n)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+(define (exaggerate bot n)
+  (define (emphasise-adjectives num sent) ;; inspired in hw0-3-ex8
+    (define (repeat num wd) (if (= num 0) '() (se wd (repeat (- num 1) wd))))
+    (cond
+      [(empty? sent) '()]
+      [(adjective? (first sent)) (se (repeat num 'very) (first sent) (emphasise-adjectives num (bf sent)))]
+      [else (se (first sent) (emphasise-adjectives num (bf sent)))]))
+  (lambda (sent) (emphasise-adjectives n (bot sent))))
+
 
 ;;REMEMBER TO ADD YOUR OWN TESTS TO GRADER.RKT!
 ;;END OF PROJECT 1
